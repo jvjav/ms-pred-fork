@@ -12,9 +12,11 @@ from tqdm import tqdm
 
 import ms_pred.common.chem_utils as chem_utils
 
-from pytorch_lightning.loggers import LightningLoggerBase
-from pytorch_lightning.utilities import rank_zero_only
-from pytorch_lightning.loggers.base import rank_zero_experiment
+#from pytorch_lightning.loggers import LightningLoggerBase # jdvg
+from pytorch_lightning.loggers.logger import Logger  # jdvg
+from pytorch_lightning.utilities.rank_zero import rank_zero_only # jdvg
+#from pytorch_lightning.utilities import rank_zero_only # jdvg
+#from pytorch_lightning.loggers.base import rank_zero_experiment #jdvg
 
 
 def get_data_dir(dataset_name: str) -> Path:
@@ -57,24 +59,24 @@ def setup_logger(save_dir, log_name="output.log", debug=False):
     logger.addHandler(logging.FileHandler(log_file))
 
 
-class ConsoleLogger(LightningLoggerBase):
+class ConsoleLogger(Logger):
     """Custom console logger class"""
 
     def __init__(self):
         super().__init__()
 
     @property
-    @rank_zero_experiment
+    @rank_zero_only # jdvg
     def name(self):
         pass
 
     @property
-    @rank_zero_experiment
+    @rank_zero_only # jdvg
     def experiment(self):
         pass
 
     @property
-    @rank_zero_experiment
+    @rank_zero_only # jdvg
     def version(self):
         pass
 
